@@ -9,14 +9,17 @@ jobs:
     runs-on: windows-latest
 
     steps:
+    # 1️⃣ 레포 체크아웃
     - name: Checkout repository
       uses: actions/checkout@v3
 
+    # 2️⃣ .NET SDK 설치
     - name: Setup .NET SDK
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: '8.0.x'
 
+    # 3️⃣ 임시 WinForms 프로젝트 생성 및 c.cs 추가
     - name: Create temporary WinForms project
       run: |
         dotnet new winforms -n TempWinForms -o TempWinForms
@@ -25,4 +28,16 @@ jobs:
         del Program.cs
         ren c.cs Program.cs
 
-    - name: Build EX
+    # 4️⃣ EXE 빌드
+    - name: Build EXE as c.exe
+      run: |
+        cd TempWinForms
+        dotnet publish -c Release -r win-x64 --self-contained true -o ../publish
+        ren ../publish/TempWinForms.exe c.exe
+
+    # 5️⃣ c.exe 업로드 (Artifacts)
+    - name: Upload c.exe artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: c-exe
+        path: publish/c.exe
