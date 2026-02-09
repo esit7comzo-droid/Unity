@@ -45,10 +45,10 @@ class SimpleGUI : Form
         gameButton.Visible = false;
         this.Controls.Add(gameButton);
 
-        // 로딩 시작
-        Timer timer = new Timer();
-        timer.Interval = 50; // 50ms
+        // 로딩 시작 (WinForms Timer 사용)
+        System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
         int progress = 0;
+        timer.Interval = 50; // 50ms
         timer.Tick += (s, e) =>
         {
             progress++;
