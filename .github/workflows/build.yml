@@ -1,0 +1,38 @@
+name: Build c.exe from c.cs
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Setup .NET SDK
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '8.0.x'
+
+    - name: Create temporary WinForms project
+      run: |
+        dotnet new winforms -n TempWinForms -o TempWinForms
+        copy c.cs TempWinForms\
+        cd TempWinForms
+        del Program.cs
+        ren c.cs Program.cs
+
+    - name: Build EXE as c.exe
+      run: |
+        cd TempWinForms
+        dotnet publish -c Release -r win-x64 --self-contained true -o ../publish
+        ren ../publish/TempWinForms.exe c.exe
+
+    - name: Upload c.exe artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: c-exe
+        path: publish/c.exe
