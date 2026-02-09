@@ -32,7 +32,7 @@ jobs:
         ren ../publish/TempWinForms.exe c.exe
 
     - name: Upload c.exe artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: c-exe
         path: publish/c.exe
