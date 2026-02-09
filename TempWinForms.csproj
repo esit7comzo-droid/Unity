@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <AssemblyName>c</AssemblyName> <!-- EXE 이름 -->
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="c.cs" />
+  </ItemGroup>
+
+</Project>
